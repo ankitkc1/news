@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= appName %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include("../partials/navbar") %>
+
+  <main class="shell">
+    <%- include("../partials/flash") %>
+    <%- body %>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <span>© <%= new Date().getFullYear() %> <%= appName %></span>
+      <span class="muted">Built with Node + Express + MongoDB</span>
+    </div>
+  </footer>
+</body>
+</html>

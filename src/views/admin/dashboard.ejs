@@ -1,0 +1,26 @@
+
+<h1>Admin Dashboard</h1>
+<a href="/admin/articles/new">+ New Article</a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th><th>Published</th><th>Created</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% articles.forEach(a => { %>
+    <tr>
+      <td><a href="/news/<%= a.slug %>"><%= a.title %></a></td>
+      <td><%= a.published ? "Yes" : "No" %></td>
+      <td><%= new Date(a.createdAt).toLocaleDateString() %></td>
+      <td>
+        <a href="/admin/articles/<%= a._id %>/edit">Edit</a>
+        <form action="/admin/articles/<%= a._id %>?_method=DELETE" method="POST" style="display:inline;">
+          <button type="submit" onclick="return confirm('Delete?')">Delete</button>
+        </form>
+      </td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>

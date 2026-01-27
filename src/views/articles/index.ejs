@@ -1,0 +1,51 @@
+<section class="hero">
+  <h1>Today’s Headlines</h1>
+  <p class="muted">Fresh stories, trending topics, and the latest updates.</p>
+</section>
+
+<section class="split">
+  <div>
+    <h2 class="section-title">Latest</h2>
+    <div class="grid">
+      <% latest.forEach(a => { %>
+        <article class="card">
+          <% if (a.coverImageUrl) { %>
+            <a href="/news/<%= a.slug %>"><img class="card-img" src="<%= a.coverImageUrl %>" alt="cover"></a>
+          <% } %>
+          <div class="card-body">
+            <div class="meta">
+              <span class="pill"><%= a.category %></span>
+              <span class="muted"><%= new Date(a.createdAt).toLocaleDateString() %></span>
+            </div>
+            <h3 class="card-title"><a href="/news/<%= a.slug %>"><%= a.title %></a></h3>
+            <p class="muted clamp2"><%= a.excerpt %></p>
+            <div class="meta">
+              <span class="muted">By <%= a.author?.name || "Admin" %></span>
+              <span class="muted">❤️ <%= a.likes.length %></span>
+            </div>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <h2 class="section-title">Trending</h2>
+    <div class="stack">
+      <% trending.forEach(t => { %>
+        <a class="row" href="/news/<%= t.slug %>">
+          <div class="row-left">
+            <div class="meta">
+              <span class="pill small"><%= t.category %></span>
+              <span class="muted">👁 <%= t.views || 0 %></span>
+            </div>
+            <div class="row-title"><%= t.title %></div>
+          </div>
+          <% if (t.coverImageUrl) { %>
+            <img class="row-img" src="<%= t.coverImageUrl %>" alt="cover">
+          <% } %>
+        </a>
+      <% }) %>
+    </div>
+  </aside>
+</section>

@@ -1,0 +1,11 @@
+<h1>Categories</h1>
+<p class="muted">Browse news by category.</p>
+
+<div class="grid simple">
+  <% rows.forEach(r => { %>
+    <a class="catcard" href="/category/<%= encodeURIComponent(r._id) %>">
+      <div class="catname"><%= r._id %></div>
+      <div class="muted"><%= r.count %> articles</div>
+    </a>
+  <% }) %>
+</div>

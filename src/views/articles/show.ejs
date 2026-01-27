@@ -1,0 +1,47 @@
+
+<article class="article">
+  <h1><%= article.title %></h1>
+  <p class="muted">By <%= article.author?.name || "Admin" %> • <%= new Date(article.createdAt).toLocaleString() %></p>
+
+  <% if (article.coverImageUrl) { %>
+    <img src="<%= article.coverImageUrl %>" alt="cover" class="cover" />
+  <% } %>
+
+  <% if (isLoggedIn) { %>
+    <div class="content"><%- article.contentHtml %></div>
+  <% } else { %>
+    <p><%= article.excerpt %></p>
+    <div class="paywall">
+      <p><strong>Login required</strong> to read the full article.</p>
+      <a href="/auth/login">Login</a> or <a href="/auth/register">Create account</a>
+    </div>
+  <% } %>
+
+  <div class="actions">
+    <form action="/news/<%= article.slug %>/like" method="POST">
+      <button type="submit"><%= hasLiked ? "Unlike" : "Like" %> ( <%= article.likes.length %> )</button>
+    </form>
+  </div>
+</article>
+
+<section class="comments">
+  <h2>Comments</h2>
+
+  <% if (isLoggedIn) { %>
+    <form action="/news/<%= article.slug %>/comments" method="POST">
+      <textarea name="text" rows="3" required placeholder="Write a comment..."></textarea>
+      <button type="submit">Post comment</button>
+    </form>
+  <% } else { %>
+    <p class="muted">Login to comment.</p>
+  <% } %>
+
+  <div class="comment-list">
+    <% comments.forEach(c => { %>
+      <div class="comment">
+        <p><strong><%= c.user?.name || "User" %></strong> • <%= new Date(c.createdAt).toLocaleString() %></p>
+        <p><%= c.text %></p>
+      </div>
+    <% }) %>
+  </div>
+</section>

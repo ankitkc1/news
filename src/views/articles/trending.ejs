@@ -1,0 +1,20 @@
+<h1>Trending</h1>
+<p class="muted">Top stories (last 30 days) by views and likes.</p>
+
+<div class="grid">
+  <% articles.forEach(a => { %>
+    <article class="card">
+      <% if (a.coverImageUrl) { %>
+        <a href="/news/<%= a.slug %>"><img class="card-img" src="<%= a.coverImageUrl %>" alt="cover"></a>
+      <% } %>
+      <div class="card-body">
+        <div class="meta">
+          <span class="pill"><%= a.category %></span>
+          <span class="muted">👁 <%= a.views || 0 %></span>
+        </div>
+        <h3 class="card-title"><a href="/news/<%= a.slug %>"><%= a.title %></a></h3>
+        <p class="muted clamp2"><%= a.excerpt %></p>
+      </div>
+    </article>
+  <% }) %>
+</div>

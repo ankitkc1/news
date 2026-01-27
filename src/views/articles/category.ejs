@@ -1,0 +1,29 @@
+<h1><%= category %></h1>
+<p class="muted">Page <%= page %> of <%= totalPages %></p>
+
+<div class="grid">
+  <% items.forEach(a => { %>
+    <article class="card">
+      <% if (a.coverImageUrl) { %>
+        <a href="/news/<%= a.slug %>"><img class="card-img" src="<%= a.coverImageUrl %>" alt="cover"></a>
+      <% } %>
+      <div class="card-body">
+        <div class="meta">
+          <span class="pill"><%= a.category %></span>
+          <span class="muted"><%= new Date(a.createdAt).toLocaleDateString() %></span>
+        </div>
+        <h3 class="card-title"><a href="/news/<%= a.slug %>"><%= a.title %></a></h3>
+        <p class="muted clamp2"><%= a.excerpt %></p>
+      </div>
+    </article>
+  <% }) %>
+</div>
+
+<div class="pager">
+  <% if (page > 1) { %>
+    <a class="btn ghost" href="/category/<%= encodeURIComponent(category) %>?page=<%= page - 1 %>">Prev</a>
+  <% } %>
+  <% if (page < totalPages) { %>
+    <a class="btn ghost" href="/category/<%= encodeURIComponent(category) %>?page=<%= page + 1 %>">Next</a>
+  <% } %>
+</div>
