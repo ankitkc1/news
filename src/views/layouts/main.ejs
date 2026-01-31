@@ -3,13 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title><%= appName %></title>
+  <title><%= (typeof title !== "undefined" && title) ? title : ((typeof appName !== "undefined" && appName) ? appName : "News") %></title>
+
   <link rel="stylesheet" href="/css/style.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 </head>
+
 <body>
   <%- include("../partials/navbar") %>
 
-  <main class="shell">
+  <main id="main" class="shell">
     <%- include("../partials/flash") %>
     <%- body %>
   </main>
@@ -17,8 +23,10 @@
   <footer class="footer">
     <div class="shell footer-inner">
       <span>© <%= new Date().getFullYear() %> <%= appName %></span>
-      <span class="muted">Built with Node + Express + MongoDB</span>
+      <span class="muted">By Ankit for HD</span>
     </div>
   </footer>
+
+  <script src="/js/ui.js"></script>
 </body>
 </html>

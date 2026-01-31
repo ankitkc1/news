@@ -3,8 +3,8 @@ const { body, validationResult } = require("express-validator");
 const slugify = require("slugify");
 const sanitizeHtml = require("sanitize-html");
 const { requireAdmin } = require("../middleware/auth");
-const upload = require("../middleware/upload"); // ✅ correct
-const Article = require("../models/Article");
+const upload = require("../middleware/upload");
+const Article = require("../models/article");
 
 const router = express.Router();
 
@@ -29,7 +29,7 @@ router.get("/articles/new", requireAdmin, (req, res) => {
   res.render("admin/article-form", { mode: "create", article: null });
 });
 
-// ✅ Create with image upload: coverImageFile
+//Create with image upload: coverImageFile
 router.post(
   "/articles",
   requireAdmin,
@@ -52,7 +52,7 @@ router.post(
 
     const safeHtml = cleanHtml(contentHtml || "");
 
-    // ✅ If file uploaded, use it. Else allow URL field.
+    //If file uploaded, use it. Else allow URL field.
     const coverImageUrl =
       req.file ? `/uploads/${req.file.filename}` : (req.body.coverImageUrl || "").trim();
 
@@ -79,7 +79,7 @@ router.get("/articles/:id/edit", requireAdmin, async (req, res) => {
   res.render("admin/article-form", { mode: "edit", article });
 });
 
-// ✅ Update with image upload optional
+//Update with image upload
 router.put(
   "/articles/:id",
   requireAdmin,
@@ -97,16 +97,20 @@ router.put(
 
     const safeHtml = cleanHtml(contentHtml || "");
 
-    const update = {
-      title,
-      excerpt,
-      contentHtml: safeHtml,
-      category: (category || "General").trim(),
-      tags: (tags || "").split(",").map(t => t.trim()).filter(Boolean),
-      published: published === "on"
-    };
+  const update = {
+    title,
+    excerpt,
+    contentHtml: safeHtml,
+    category: (category || "General").trim(),
+    tags: (tags || "").split(",").map(t => t.trim()).filter(Boolean),
+  };
 
-    // ✅ Replace image if new file uploaded, else allow URL field update
+  //only change published if the form sent it
+  if (typeof published !== "undefined") {
+    update.published = (published === "true" || published === "on");
+  }
+
+    // Replace image if new file uploaded, else allow URL field update
     if (req.file) update.coverImageUrl = `/uploads/${req.file.filename}`;
     else if (typeof req.body.coverImageUrl === "string") update.coverImageUrl = req.body.coverImageUrl.trim();
 

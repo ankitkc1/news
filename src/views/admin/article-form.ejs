@@ -31,17 +31,30 @@
 
   <% if (article?.coverImageUrl) { %>
     <p class="muted">Current image:</p>
-    <img src="<%= article.coverImageUrl %>" style="max-width:240px;border-radius:12px;border:1px solid #eee;" />
+    <img src="<%= article.coverImageUrl %>" class="thumb" alt="Current cover" />
   <% } %>
 
   <label>Content</label>
 
-<!-- store existing HTML safely (for edit mode) -->
+<!-- store existing HTML for edit mode -->
 <div id="existingHtml" style="display:none;"><%- article?.contentHtml || "" %></div>
 
-<div id="editor" style="min-height:320px;background:#fff;border:1px solid #e8e8ea;border-radius:12px;"></div>
+<div id="editor" class="editor"></div>
 
 <input type="hidden" name="contentHtml" id="contentHtml" />
+
+<label class="check">
+  <input type="hidden" name="published" value="false" />
+  <input
+    type="checkbox"
+    name="published"
+    value="true"
+    <%= article?.published ? "checked" : "" %>
+  />
+  Published
+</label>
+
+
 
 
   <button class="btn" type="submit"><%= mode === "create" ? "Publish" : "Save" %></button>
@@ -52,7 +65,7 @@
     const editorEl = document.getElementById("editor");
     const hidden = document.getElementById("contentHtml");
 
-    // ✅ if CDN didn't load, you'll see this message inside the box
+    //if CDN didn't load,  message inside the box will apear
     if (typeof Quill === "undefined") {
       editorEl.innerHTML =
         "<div style='padding:12px;color:#b91c1c;font-weight:600'>Quill is not loading (CDN blocked/offline). Install Quill locally (fix below).</div>";
@@ -73,17 +86,17 @@
       }
     });
 
-    // ✅ load existing content for edit mode
+    //load existing content for edit mode
     const existing = document.getElementById("existingHtml").innerHTML;
     if (existing.trim()) quill.root.innerHTML = existing;
 
-    // ✅ keep hidden input always updated (prevents "contentHtml required" error)
+    //keep hidden input always updated
     hidden.value = quill.root.innerHTML;
     quill.on("text-change", () => {
       hidden.value = quill.root.innerHTML;
     });
 
-    // ✅ focus editor
+    // focus editor
     quill.focus();
   });
 </script>

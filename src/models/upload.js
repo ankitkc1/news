@@ -2,6 +2,7 @@ const multer = require("multer");
 const path = require("path");
 const crypto = require("crypto");
 
+//handling the file upload part that upload cover image for article
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, path.join(__dirname, "..", "..", "public", "uploads")),
   filename: (req, file, cb) => {

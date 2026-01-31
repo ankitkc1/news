@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+//defines the structure and gives you functions to save/fetch/update
 const articleSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true, maxlength: 180 },
@@ -15,7 +16,7 @@ const articleSchema = new mongoose.Schema(
     category: { type: String, trim: true, default: "General" },
 
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    views: { type: Number, default: 0 },   // ✅ trending uses this
+    views: { type: Number, default: 0 },   //display the views
     published: { type: Boolean, default: true }
   },
   { timestamps: true }

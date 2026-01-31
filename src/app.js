@@ -38,7 +38,7 @@ app.use(
   app.use(cookieParser());
   app.use(methodOverride("_method"));
 
-  // ✅ Serve /public as root (clean URLs)
+  // Serve /public as root
   app.use(express.static(path.join(__dirname, "..", "public")));
 
   // EJS + layouts
@@ -47,15 +47,15 @@ app.use(
   app.use(expressLayouts);
   app.set("layout", "layouts/main");
 
-  // Sessions stored in MongoDB
+  //Sessions stored in MongoDB
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URI,   // ✅ MUST be defined
-      dbName: "e_news",                  // optional but ok
+      mongoUrl: process.env.MONGODB_URI,   
+      dbName: "e_news", 
       collectionName: "sessions",
     }),
   })
@@ -74,10 +74,10 @@ app.use(
 
   app.use(attachUserToViews);
 
-  // ✅ Categories in navbar (cached)
+  //Categories in navbar
   app.use(categoriesNavMiddleware);
 
-  // Routes
+  //Routes
   app.use("/auth", authRoutes);
   app.use("/", articleRoutes);
   app.use("/admin", adminRoutes);
@@ -85,5 +85,5 @@ app.use(
   app.use((req, res) => res.status(404).send("404 Not Found"));
 
   const port = process.env.PORT || 3000;
-  app.listen(port, () => console.log(`✅ Server running at http://localhost:${port}`));
+  app.listen(port, () => console.log(`Server running at http://localhost:${port}`));
 })();

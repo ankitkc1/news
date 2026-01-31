@@ -1,3 +1,4 @@
+//multer api makess possinle to upload fle and image
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
@@ -5,6 +6,7 @@ const fs = require("fs");
 const uploadDir = path.join(process.cwd(), "public", "uploads");
 fs.mkdirSync(uploadDir, { recursive: true });
 
+//upload fiile to the server
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) => {
@@ -15,4 +17,4 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-module.exports = upload;   // ✅ IMPORTANT
+module.exports = upload;   // make it resuable for other part

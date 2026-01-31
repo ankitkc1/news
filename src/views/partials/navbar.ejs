@@ -5,9 +5,7 @@
     <nav class="navlinks">
       <a href="/trending">Trending</a>
       <a href="/categories">Categories</a>
-      <% (navCategories || []).forEach(c => { %>
-        <a class="chip" href="/category/<%= encodeURIComponent(c) %>"><%= c %></a>
-      <% }) %>
+
     </nav>
 
     <div class="authbox">
@@ -25,5 +23,10 @@
         <a class="btn" href="/auth/register">Create account</a>
       <% } %>
     </div>
+    <button class="btn icon ghost" type="button" aria-label="Toggle theme" data-theme-toggle>
+  <span class="icon-sun" aria-hidden="true">☀️</span>
+  <span class="icon-moon" aria-hidden="true">🌙</span>
+</button>
+
   </div>
 </header>

@@ -1,7 +1,7 @@
 const Article = require("../models/Article");
 
 let cache = { categories: [], expiresAt: 0 };
-
+//get categoroes in the nav bar with the maximum of 8
 async function categoriesNavMiddleware(req, res, next) {
   try {
     const now = Date.now();

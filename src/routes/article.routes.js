@@ -1,7 +1,7 @@
 const express = require("express");
 const { requireAuth } = require("../middleware/auth");
-const Article = require("../models/Article");
-const Comment = require("../models/Comment");
+const Article = require("../models/article");
+const Comment = require("../models/comment");
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ function getPage(req) {
   return Number.isFinite(p) && p > 0 ? p : 1;
 }
 
-// ✅ Home: featured + latest
+// Home: featured and latest
 router.get("/", async (req, res) => {
   const latest = await Article.find({ published: true })
     .sort({ createdAt: -1 })
@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
   res.render("articles/index", { latest, trending });
 });
 
-// ✅ Categories list page with counts
+//Categories list page with counts
 router.get("/categories", async (req, res) => {
   const rows = await Article.aggregate([
     { $match: { published: true } },
@@ -36,7 +36,7 @@ router.get("/categories", async (req, res) => {
   res.render("articles/categories", { rows });
 });
 
-// ✅ Category page (with pagination)
+//Category page
 router.get("/category/:category", async (req, res) => {
   const category = req.params.category;
   const page = getPage(req);
@@ -56,9 +56,9 @@ router.get("/category/:category", async (req, res) => {
   res.render("articles/category", { category, items, page, totalPages });
 });
 
-// ✅ Trending page (views + likes)
+//Trending page with views + likes
 router.get("/trending", async (req, res) => {
-  // last 30 days trending feels “news-like”
+  //last 30 days trending count
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
   const articles = await Article.aggregate([
@@ -71,12 +71,12 @@ router.get("/trending", async (req, res) => {
   res.render("articles/trending", { articles });
 });
 
-// ✅ View article (paywall stays)
+//View article
 router.get("/news/:slug", async (req, res) => {
   const article = await Article.findOne({ slug: req.params.slug, published: true }).populate("author", "name");
   if (!article) return res.status(404).send("Article not found");
 
-  // ✅ View counter (avoid repeating within same session)
+  //View counter (avoid repeating within same session)
   req.session.viewedSlugs = req.session.viewedSlugs || [];
   if (!req.session.viewedSlugs.includes(article.slug)) {
     req.session.viewedSlugs.push(article.slug);
@@ -95,7 +95,7 @@ router.get("/news/:slug", async (req, res) => {
   res.render("articles/show", { article, comments, hasLiked });
 });
 
-// Like/unlike
+// Like option
 router.post("/news/:slug/like", requireAuth, async (req, res) => {
   const article = await Article.findOne({ slug: req.params.slug, published: true });
   if (!article) return res.status(404).send("Article not found");
@@ -110,7 +110,7 @@ router.post("/news/:slug/like", requireAuth, async (req, res) => {
   res.redirect(`/news/${article.slug}`);
 });
 
-// Comment
+//Comment
 router.post("/news/:slug/comments", requireAuth, async (req, res) => {
   const article = await Article.findOne({ slug: req.params.slug, published: true });
   if (!article) return res.status(404).send("Article not found");

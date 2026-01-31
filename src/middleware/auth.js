@@ -4,7 +4,7 @@ function attachUserToViews(req, res, next) {
   res.locals.isAdmin = req.session.user?.role === "admin";
   next();
 }
-
+//check whether user is loggin or not for reading , luke and comment
 function requireAuth(req, res, next) {
   if (!req.session.user) {
     req.flash("error", "Please login to continue.");
@@ -13,6 +13,7 @@ function requireAuth(req, res, next) {
   next();
 }
 
+//admin only if task require admin role
 function requireAdmin(req, res, next) {
   if (req.session.user?.role !== "admin") {
     req.flash("error", "Admins only.");
