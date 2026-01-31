@@ -4,7 +4,7 @@ const slugify = require("slugify");
 const sanitizeHtml = require("sanitize-html");
 const { requireAdmin } = require("../middleware/auth");
 const upload = require("../middleware/upload");
-const Article = require("../models/Article");
+const Article = require("../models/article");
 
 const router = express.Router();
 
