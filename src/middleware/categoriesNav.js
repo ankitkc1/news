@@ -1,4 +1,4 @@
-const Article = require("../models/Article");
+const Article = require("../models/article");
 
 let cache = { categories: [], expiresAt: 0 };
 //get categoroes in the nav bar with the maximum of 8
